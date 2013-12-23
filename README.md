@@ -1,4 +1,3 @@
 clarabox
-========
 
-bigdata project based on spark, shark, hbase
+A Big Data integration, analysis platform based on scala, spark and hbase
