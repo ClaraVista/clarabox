@@ -1,10 +1,7 @@
-package job.bouygues
+package job.integration.bouygues
 
 import fetcher.{hdfsFetcher, hbaseFetcher}
-import entity._
-import BouyguesParams
-
-//import job.bouygues.Entity._
+import job.integration.bouygues.entity.BygClient
 
 
 /**

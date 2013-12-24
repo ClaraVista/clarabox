@@ -1,6 +1,7 @@
 package entry
+import job.integration._
+import job.analysis._
 
-import job.bouygues
 
 /**
 * Created with IntelliJ IDEA.
@@ -11,6 +12,7 @@ import job.bouygues
 
 object Entry {
   def main(args: Array[String]) = {
-    bouygues.launcher.run()
+//    bouygues.launcher.run
+    anonymous.run()
   }
 }

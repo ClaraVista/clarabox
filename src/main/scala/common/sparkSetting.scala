@@ -25,10 +25,10 @@ object sparkSetting {
 
     System.setProperty("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     System.setProperty("spark.kryo.registrator", "common.MyRegistrator")
-    System.setProperty("spark.kryoserializer.buffer.mb", "50")
-    System.setProperty("spark.executor.memory", "10g")
-    System.setProperty("spark.scheduler.mode", "FAIR")
-    System.setProperty("spark.akka.frameSize", "50")
+//    System.setProperty("spark.kryoserializer.buffer.mb", "50")
+//    System.setProperty("spark.executor.memory", "10g")
+//    System.setProperty("spark.scheduler.mode", "FAIR")
+//    System.setProperty("spark.akka.frameSize", "50")
 
     val sc = new SparkContext("spark://" + nameNodeURL + ":" + sparkPort, "HBaseTest",
       System.getenv("SPARK_HOME"), Seq("target/scala-2.9.3/clarabox_2.9.3-0.1.jar"))

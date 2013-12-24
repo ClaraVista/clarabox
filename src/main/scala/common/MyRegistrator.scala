@@ -2,7 +2,7 @@ package common
 
 import org.apache.spark.serializer.KryoRegistrator
 import com.esotericsoftware.kryo.Kryo
-import job.bouygues.entity._
+import job.integration.bouygues.entity._
 
 /**
  * Created with IntelliJ IDEA.

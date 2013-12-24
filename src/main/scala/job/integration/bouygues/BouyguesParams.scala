@@ -1,7 +1,7 @@
-package job.bouygues
+package job.integration.bouygues
 
 import fetcher.hdfsFetcher
-import job.bouygues.launcher._
+import job.integration.bouygues.launcher._
 import parameter.AnnouncerParams
 
 /**

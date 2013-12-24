@@ -1,4 +1,4 @@
-package job.bouygues
+package job.integration.bouygues
 
 import serde._
 import org.apache.hadoop.hbase.client.Result
