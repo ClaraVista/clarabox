@@ -8,6 +8,8 @@ import org.apache.spark.mllib.classification.SVMWithSGD
  * Date: 12/24/13
  * Time: 10:48 AM
  */
-trait SVM extends BasicClassification{
-  override lazy val model = getModel(new SVMWithSGD())
+
+class SVM(val scoringDataSet: BasicClassification#ScoringDataSet) extends BasicClassification with Serializable {
+  val numIterations: Int = 10
+  val model =  trainData(new SVMWithSGD())
 }

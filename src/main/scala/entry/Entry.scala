@@ -13,6 +13,6 @@ import job.analysis._
 object Entry {
   def main(args: Array[String]) = {
 //    bouygues.launcher.run
-    anonymous.run()
+    anonymous.launcher.run()
   }
 }
