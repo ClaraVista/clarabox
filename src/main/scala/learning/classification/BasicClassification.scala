@@ -4,6 +4,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.mllib.regression.{GeneralizedLinearModel, GeneralizedLinearAlgorithm}
 import org.apache.spark.mllib.optimization.{GradientDescent, L1Updater}
 import org.apache.spark.mllib.regression.LabeledPoint
+import learning.Helper._
 import scala.math.exp
 
 /**
@@ -11,14 +12,17 @@ import scala.math.exp
  * User: coderh
  * Date: 12/23/13
  * Time: 11:51 AM
+ *
  */
 
 trait BasicClassification {
   type DataSet = RDD[LabeledPoint]
   type ScoringDataSet = RDD[(Int, LabeledPoint)]
 
+  /**
+   * Variables to be implemented when mix-in
+   */
   val scoringDataSet: ScoringDataSet
-
   val numIterations: Int
   val model: GeneralizedLinearModel
 
@@ -32,10 +36,9 @@ trait BasicClassification {
     (a, b, c)
   }
 
-  lazy val E_in = errorMeasure(trainingSet, model)
-  lazy val E_out = errorMeasure(testSet, model)
+  lazy val E_in = errorMeasure(trainingSet)
+  lazy val E_out = errorMeasure(testSet)
   lazy val scores = {
-
     // logistic function
     def logistic(x: Double) = 1 / (1 + exp(-x))
 
@@ -48,7 +51,12 @@ trait BasicClassification {
     }
   }
 
-  protected def trainData[T <: GeneralizedLinearModel](algorithm: GeneralizedLinearAlgorithm[T]) = {
+  /**
+   * @param algorithm SVM, logistic regression, and other classification algorithms.
+   * @tparam T the type of the model which is a subclass of GeneralizedLinearModel
+   * @return the correspond model
+   */
+  protected def trainData[T <: GeneralizedLinearModel](algorithm: GeneralizedLinearAlgorithm[T]): T = {
     val optimizer = algorithm.optimizer match {
       case opt: GradientDescent => opt
     }
@@ -59,17 +67,11 @@ trait BasicClassification {
     algorithm.run(trainingSet)
   }
 
-  protected def split[T: ClassManifest](data: RDD[T], p: Double, seed: Long = System.currentTimeMillis): (RDD[T], RDD[T]) = {
-    val rand = new scala.util.Random(seed)
-    val partitionSeeds = data.partitions.map(partition => rand.nextLong)
-    val temp = data.mapPartitionsWithIndex((index, iter) => {
-      val partitionRand = new java.util.Random(partitionSeeds(index))
-      iter.map(x => (x, partitionRand.nextDouble))
-    })
-    (temp.filter(_._2 <= p).map(_._1), temp.filter(_._2 > p).map(_._1))
-  }
-
-  protected def errorMeasure(ds: RDD[LabeledPoint], model: GeneralizedLinearModel) = {
+  /**
+   * @param ds the dataSet to estimate with
+   * @return binary classification error
+   */
+  protected def errorMeasure(ds: RDD[LabeledPoint]) = {
     val res = ds.map {
       point =>
         val prediction = model.predict(point.features)

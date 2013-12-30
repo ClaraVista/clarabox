@@ -13,7 +13,7 @@ import org.apache.spark.SparkContext._
  */
 object launcher {
   val dataLocation = "/ML/rl_clean"
-  val resultLocation = "/res/anonymous/"
+  val resultLocation = "/res/anonymous_to_delete/"
 
   def saveScores() = {
     val scoringDataSet = hdfsFetcher.readData(dataLocation).map {
@@ -23,7 +23,7 @@ object launcher {
         (parts.head.toInt, LabeledPoint(parts.tail.head.toDouble, parts.tail.tail.map(x => x.toDouble).toArray))
     }
 
-    val cls = new LogReg(scoringDataSet)
+    val cls = new LogReg(scoringDataSet, 100)
     hdfsFetcher.writeData(cls.scores.map(p => p._1 + ";" + p._2 + ";" + p._3), resultLocation)
   }
 
@@ -31,11 +31,11 @@ object launcher {
     val sco = hdfsFetcher.readData(resultLocation).map(line => line split ";") map {
       case Array(id, label, prob) => (prob.toDouble, label.toDouble)
     }
-    sco.filter(x => x._2 == 1).sortByKey(ascending = true) take 100 mkString "\n"
+    sco.filter(x => x._2 == 1).sortByKey(ascending = false) take 100 mkString "\n"
   }
 
   def run() = {
-    //    saveScores
-    println(loadScores)
+    saveScores
+    //    loadScores
   }
 }

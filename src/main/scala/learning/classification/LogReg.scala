@@ -9,7 +9,6 @@ import org.apache.spark.mllib.classification.LogisticRegressionWithSGD
  * Date: 12/24/13
  * Time: 10:46 AM
  */
-class LogReg(val scoringDataSet: BasicClassification#ScoringDataSet) extends BasicClassification with Serializable {
-  val numIterations: Int = 10
+class LogReg(val scoringDataSet: BasicClassification#ScoringDataSet, val numIterations: Int) extends BasicClassification with Serializable {
   val model =  trainData(new LogisticRegressionWithSGD())
 }

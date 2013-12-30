@@ -9,7 +9,6 @@ import org.apache.spark.mllib.classification.SVMWithSGD
  * Time: 10:48 AM
  */
 
-class SVM(val scoringDataSet: BasicClassification#ScoringDataSet) extends BasicClassification with Serializable {
-  val numIterations: Int = 10
-  val model =  trainData(new SVMWithSGD())
+class SVM(val scoringDataSet: BasicClassification#ScoringDataSet, val numIterations: Int) extends BasicClassification with Serializable {
+  val model = trainData(new SVMWithSGD())
 }
