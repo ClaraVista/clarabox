@@ -9,7 +9,7 @@ import org.apache.spark.util.Vector
  * Time: 5:56 PM
  */
 
-case class Score(id: String, notes: Vector) {
+case class IdentifiedFeatures(id: String, notes: Vector) {
   val sep = ";"
   override val toString = id + sep + notes.elements.mkString(sep)
 }

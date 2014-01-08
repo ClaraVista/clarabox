@@ -1,7 +1,7 @@
 package activity
 
 import parameter.AnnouncerParams
-import learning.Score
+import learning.IdentifiedFeatures
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +11,7 @@ import learning.Score
  */
 
 trait Activity {
-  def retrieveNote(params: AnnouncerParams): Score
+  def retrieveNote(params: AnnouncerParams): IdentifiedFeatures
 }
 
 

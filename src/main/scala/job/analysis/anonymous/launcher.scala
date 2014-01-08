@@ -1,9 +1,10 @@
 package job.analysis.anonymous
 
-import org.apache.spark.mllib.regression.LabeledPoint
 import fetcher.hdfsFetcher
-import learning.classification.LogReg
-import org.apache.spark.SparkContext._
+import learning.classification._
+import learning.classification.algo.LogReg
+import learning.classification.output.Summary
+import learning.classification.input.Individual
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,31 +12,62 @@ import org.apache.spark.SparkContext._
  * Date: 12/23/13
  * Time: 12:00 PM
  */
+
 object launcher {
-  val dataLocation = "/ML/rl_clean"
-  val resultLocation = "/res/anonymous_to_delete/"
+  val monoModLocation = "/ML/rl_clean"
+  val multiModLocation = "/ML/rl_mm"
+  val monoModResultLocation = "/res/anonymous/"
+  val multiModResultLocation = "/res/mmAnonymous/"
+
+  /*
+   * mono-modality
+   */
 
   def saveScores() = {
-    val scoringDataSet = hdfsFetcher.readData(dataLocation).map {
+    val scoringDataSet = hdfsFetcher.readData(monoModLocation).map {
       line =>
         val parts = line.split("\001")
         // first element is ID which is not a variable
-        (parts.head.toInt, LabeledPoint(parts.tail.head.toDouble, parts.tail.tail.map(x => x.toDouble).toArray))
+        Individual(parts.head.toInt, Array(parts.tail.head.toDouble), parts.tail.tail.map(x => x.toDouble).toArray)
     }
 
-    val cls = new LogReg(scoringDataSet, 100)
-    hdfsFetcher.writeData(cls.scores.map(p => p._1 + ";" + p._2 + ";" + p._3), resultLocation)
+    val cls = new LogReg(scoringDataSet, numIterations = 200)
+    hdfsFetcher.writeData(cls.testSummary.map(_.toString()), monoModResultLocation)
   }
 
   def loadScores() = {
-    val sco = hdfsFetcher.readData(resultLocation).map(line => line split ";") map {
-      case Array(id, label, prob) => (prob.toDouble, label.toDouble)
+    val sco = hdfsFetcher.readData(monoModResultLocation).map(line => (line split ";").toList).map(Summary.apply).map(_.scoreList.head)
+    Helper.generateLiftCurveData(sco.collect.toList, 0.05).mkString("\n")
+  }
+
+  /*
+   * multi-modality
+   */
+
+  def saveMMScores() = {
+    val nbModality: Int = 3
+
+    val scoringDataSet = hdfsFetcher.readData(multiModLocation).map {
+      line =>
+        val parts = line.split("\001")
+        Individual(parts.head.toInt, parts.tail.take(nbModality).map(_.toDouble).toArray, parts.tail.drop(nbModality).map(_.toDouble).toArray)
     }
-    sco.filter(x => x._2 == 1).sortByKey(ascending = false) take 100 mkString "\n"
+
+    val cls = new LogReg(scoringDataSet, numIterations = 100, nbModality)
+
+    hdfsFetcher.writeData(cls.testSummary.map(_.toString), multiModResultLocation)
+  }
+
+  def loadMMScores() = {
+    val content = hdfsFetcher.readData(multiModResultLocation).map(line => (line split ";").toList).map(Summary.apply)
+    content take 100 mkString "\n"
   }
 
   def run() = {
-    saveScores
-    //    loadScores
+    //    saveScores
+    println(loadScores)
+
+    //    saveMMScores()
+    //    println(loadMMScores)
   }
 }

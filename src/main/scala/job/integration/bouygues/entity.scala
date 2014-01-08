@@ -9,9 +9,9 @@ import org.joda.time.Days
 import component.BasicClient
 import component.browse.{BasicView, BasicVisit}
 import scala.Some
-import parameter.{AnnouncerParams}
+import parameter.AnnouncerParams
 import activity.Browse
-import learning.Score
+import learning.IdentifiedFeatures
 
 /**
  * Created with IntelliJ IDEA.
@@ -86,7 +86,7 @@ object entity {
       hbaseRowFormat("navi", "visites", visits.map(Visit.serialize).mkString(BygClient.visitItemSep)) // serialize to String
     )
 
-    override def retrieveNote(params: AnnouncerParams): Score = {
+    override def retrieveNote(params: AnnouncerParams): IdentifiedFeatures = {
 
       val dict = params match {
         case p: BouyguesParams => p.pageCtgMap
@@ -102,7 +102,7 @@ object entity {
         case None => 0d
       })
 
-      Score(id, Vector(getHeat("20/09/2013", 4, 2, 1) +: freqList.toArray))
+      IdentifiedFeatures(id, Vector(getHeat("20/09/2013", 4, 2, 1) +: freqList.toArray))
     }
 
     // Helper functions
