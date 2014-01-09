@@ -33,6 +33,13 @@ object sparkSetting {
     val sc = new SparkContext("spark://" + nameNodeURL + ":" + sparkPort, "HBaseTest",
       System.getenv("SPARK_HOME"), Seq("target/scala-2.9.3/clarabox_2.9.3-0.1.jar"))
 
+    val awsAccessKeyId = System.getenv("AWS_ACCESS_KEY_ID")
+    val awsSecretAccessKey = System.getenv("AWS_SECRET_ACCESS_KEY")
+    sc.hadoopConfiguration.set("fs.s3.awsAccessKeyId", awsAccessKeyId)
+    sc.hadoopConfiguration.set("fs.s3.awsSecretAccessKey", awsSecretAccessKey)
+    sc.hadoopConfiguration.set("fs.s3n.awsAccessKeyId", awsAccessKeyId)
+    sc.hadoopConfiguration.set("fs.s3n.awsSecretAccessKey", awsSecretAccessKey)
+
     // add all dependencies
     dependencies.foreach(jar => sc.addJar("lib/" + jar))
     sc

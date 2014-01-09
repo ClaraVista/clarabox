@@ -25,7 +25,6 @@ trait BasicClassification {
    *learning parameters
    */
 
-  val regularizationParam: Double = 0.1
 
   // partition percentage of the total data set
   val trainingSetPercentage = 0.6
@@ -56,7 +55,8 @@ trait BasicClassification {
   val (trainingSet, validationSet, testSet) = {
     val (a, remainder) = Helper.split(scoringDataSet, trainingSetPercentage)
     val (b, c) = Helper.split(remainder, validationSetPercentage / (1 - trainingSetPercentage))
-    (a, b, c)
+    //    (a, b, c)
+    (a union b, Nil, c)
   }
 
   /*
@@ -127,17 +127,23 @@ trait BasicClassification {
    * @return the correspond model
    */
   protected def trainData[T <: GeneralizedLinearModel](algorithm: GeneralizedLinearAlgorithm[T]): List[T] = {
+    val regularizationParam: Double = 0.01
+
     val retVal = for (i <- 0 until nbMod) yield {
       val optimizer = algorithm.optimizer match {
         case opt: GradientDescent => opt
       }
+
       optimizer.setNumIterations(numIterations)
         .setRegParam(regularizationParam)
-        .setUpdater(new L1Updater)
+      //.setUpdater(new L1Updater)
 
       algorithm.run(trainingSet.map {
         indiv => LabeledPoint(indiv.labels(i), indiv.features)
       })
+      //      SVMWithSGD.train(trainingSet.map {
+      //        indiv => LabeledPoint(indiv.labels(i), indiv.features)
+      //      }, numIterations)
     }
     retVal.toList
   }

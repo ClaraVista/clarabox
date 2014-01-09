@@ -38,7 +38,7 @@ object Helper {
    * @param scoreSet a Score set used for measure binary classification error
    * @return  a list of error according to the corresponding label
    */
-  def errorMeasure(scoreSet: RDD[Summary], nbMod: Int) = {
+  def errorMeasure(scoreSet: RDD[Summary], nbMod: Int = 1) = {
     (0 until nbMod) map {
       index => scoreSet.filter(scr => scr.scoreList(index).isError).count.toDouble / scoreSet.count
     }
