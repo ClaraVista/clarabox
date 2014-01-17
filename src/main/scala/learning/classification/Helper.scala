@@ -64,9 +64,11 @@ object Helper {
 
     val dist = getPartition(pairList.sortBy(-_.score))
 
-    1 to dist.size map {
+    val tail = 1 to dist.size map {
       i => if (i == dist.size) (1.0, dist.sum / nbOnes) else (share * i / nbTotal.toDouble, dist.take(i).sum / nbOnes)
     }
+
+    (0.0, 0.0) +: tail
   }
 
   //  def orderedSplit(dataSet: RDD[(Double, Double)], nb: Int): Array[Double] = {
