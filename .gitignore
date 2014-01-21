@@ -2,11 +2,8 @@
 *.log
 *.png
 
-<<<<<<< HEAD
-=======
 lib/
 
->>>>>>> 0153dac2ce6a1a68c4776ae79335bb381e7aca62
 # sbt specific
 dist/*
 target/
