@@ -6,6 +6,6 @@ package component
  * Date: 1/28/14
  * Time: 7:10 PM
  */
-class BasicProduct {
-
+abstract class BasicProduct {
+   val idProduct :String
 }

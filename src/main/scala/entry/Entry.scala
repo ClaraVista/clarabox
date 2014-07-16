@@ -1,5 +1,5 @@
 package entry
-//import job.integration._
+import job.integration._
 import job.analysis._
 
 
@@ -13,6 +13,7 @@ import job.analysis._
 object Entry {
   def main(args: Array[String]) = {
 //    bouygues.launcher.run
-    anonymous.launcher.run()
+//    anonymous.launcher.run()
+    sephora.launcher.run
   }
 }

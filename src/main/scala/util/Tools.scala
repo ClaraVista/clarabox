@@ -1,5 +1,7 @@
 package util
 
+import org.apache.spark.rdd.RDD
+
 /**
  * Created with IntelliJ IDEA.
  * User: spark
@@ -8,4 +10,12 @@ package util
  */
 object Tools {
 
+  def concatener (param : List[List[Any]]): List[Any] = {
+    param match {
+      case Nil => Nil
+      case x :: xs => x :: concatener(xs)
+    }
+  }
+
 }
+

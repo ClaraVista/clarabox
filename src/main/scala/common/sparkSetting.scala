@@ -31,7 +31,8 @@ object sparkSetting {
 //    System.setProperty("spark.akka.frameSize", "50")
 
     val sc = new SparkContext("spark://" + nameNodeURL + ":" + sparkPort, "HBaseTest",
-      System.getenv("SPARK_HOME"), Seq("target/scala-2.9.3/clarabox_2.9.3-0.1.jar"))
+      System.getenv("SPARK_HOME"), Seq("target/scala-2.9.3/clarabox_2.9.3-0.1.jar", "lib/hbase-0.94.12.jar"))
+
 
     val awsAccessKeyId = System.getenv("AWS_ACCESS_KEY_ID")
     val awsSecretAccessKey = System.getenv("AWS_SECRET_ACCESS_KEY")

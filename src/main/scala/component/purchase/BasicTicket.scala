@@ -2,10 +2,13 @@ package component.purchase
 
 /**
  * Created with IntelliJ IDEA.
- * User: spark
- * Date: 1/21/14
- * Time: 3:54 PM
+ * User: hadoop
+ * Date: 12/30/13
+ * Time: 4:09 PM
  */
-class BasicTicket {
+abstract class BasicTicket {
+  val idTicket: String
+  val purchaseDate: String
+  val sales: List[BasicSale]
 
 }

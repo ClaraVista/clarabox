@@ -37,9 +37,10 @@ object hbaseFetcher {
     conf.set(TableInputFormat.INPUT_TABLE, tableName)
 
     val admin = new HBaseAdmin(conf)
-    if (!admin.isTableAvailable(tableName)) {
-      throw new Exception("The table " + tableName + " does not exist in HBase")
-    }
+    //très attention, retiré pour test
+    //if (!admin.isTableAvailable(tableName)) {
+    //  throw new Exception("The table " + tableName + " does not exist in HBase")
+    //}
 
     val hBaseRDD = sparkContext.newAPIHadoopRDD(
       conf,

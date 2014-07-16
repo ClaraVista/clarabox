@@ -10,7 +10,7 @@ import org.apache.spark.rdd.RDD
  * Time: 4:02 PM
  */
 object s3Fetcher {
-  val s3BucketName = "claravista.output/"
+  val s3BucketName = ""
   val basePath = "s3n://" + s3BucketName
 
   def readData(path: String) = {

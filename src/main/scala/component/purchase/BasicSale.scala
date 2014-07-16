@@ -2,10 +2,13 @@ package component.purchase
 
 /**
  * Created with IntelliJ IDEA.
- * User: spark
- * Date: 1/21/14
- * Time: 3:54 PM
+ * User: hadoop
+ * Date: 12/30/13
+ * Time: 4:08 PM
  */
-class BasicSale {
+abstract class BasicSale {
+  val price: Float
+  val quantity: Int
+  val idProduct: String
 
 }

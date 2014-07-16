@@ -1,11 +1,13 @@
 package job.integration.sephora
 
+import parameter.AnnouncerParams
+
 /**
  * Created with IntelliJ IDEA.
- * User: spark
- * Date: 1/21/14
- * Time: 3:43 PM
+ * User: hadoop
+ * Date: 12/19/13
+ * Time: 6:13 PM
  */
-class SephoraParams {
+case class SephoraParams extends AnnouncerParams {
 
 }
