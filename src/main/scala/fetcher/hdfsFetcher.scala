@@ -12,7 +12,8 @@ import org.apache.spark.rdd.RDD
 
 object hdfsFetcher {
 
-  val basePath = "hdfs://" + nameNodeURL + ":" + hdfsPort
+  // val basePath = "hdfs://" + nameNodeURL + ":" + hdfsPort
+  val basePath = "hdfs://" + "" + ":" + ""
 
   def readData(path: String) = {
     sparkContext.textFile(basePath + path)

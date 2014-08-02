@@ -3,7 +3,7 @@
 *.png
 
 lib/
-
+data/
 # sbt specific
 dist/*
 target/

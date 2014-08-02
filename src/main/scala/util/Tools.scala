@@ -1,6 +1,6 @@
 package util
 
-import org.apache.spark.rdd.RDD
+import scala.annotation.tailrec
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,11 +10,19 @@ import org.apache.spark.rdd.RDD
  */
 object Tools {
 
+  /**
+   * Concatene une liste de listes en une seule liste
+   * @param param : une liste de listes
+   * @return : une unique liste avec tous les éléments
+   */
   def concatener (param : List[List[Any]]): List[Any] = {
-    param match {
-      case Nil => Nil
-      case x :: xs => x :: concatener(xs)
+    //On utilise un accumulateur pour avoir une fonction en tailrec, qui sont plus rapides
+    @tailrec
+    def inner(param: List[List[Any]], acc: List[Any]): List[Any] = param match {
+      case Nil => acc
+      case x :: xs => inner(xs, x.reverse ::: acc)
     }
+    inner(param, Nil).reverse
   }
 
 }

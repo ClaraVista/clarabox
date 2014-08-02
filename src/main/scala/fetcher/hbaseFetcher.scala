@@ -25,9 +25,9 @@ object hbaseFetcher {
     val conf = HBaseConfiguration.create()
 
     // general hbase setting
-    conf.set("hbase.rootdir", "hdfs://" + nameNodeURL + ":" + hdfsPort + "/hbase")
+//    conf.set("hbase.rootdir", "hdfs://" + nameNodeURL + ":" + hdfsPort + "/hbase")
     conf.setBoolean("hbase.cluster.distributed", true)
-    conf.set("hbase.zookeeper.quorum", hostname)
+//    conf.set("hbase.zookeeper.quorum", hostname)
     conf.setInt("hbase.client.scanner.caching", 10000)
     conf
   }
